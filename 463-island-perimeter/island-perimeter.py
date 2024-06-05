@@ -1,29 +1,22 @@
 class Solution:
     def islandPerimeter(self, grid: List[List[int]]) -> int:
-        ans = 0
         m, n = len(grid), len(grid[0])
         visited = [[False for _ in range(n)] for _ in range(m)]
 
-        def out_of_index(x, y):
-            return x < 0 or y < 0 or x >= m or y >= n
+        def dfs(i, j):
+            if i < 0 or j < 0 or i >= m or j >= n or grid[i][j] == 0:
+                return 1
 
-        def start_point():
-            for i in range(m):
-                for j in range(n):
-                    if grid[i][j] == 1:
-                        return i, j
+            if visited[i][j]:
+                return 0
+                
+            visited[i][j] = True
+            
+            return dfs(i+1, j) + dfs(i-1, j) + dfs(i, j+1) + dfs(i, j-1) 
 
-        start = start_point()
-        q = deque([start])
-        visited[start[0]][start[1]] = True
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    return dfs(i,j)
+
         
-        while q:
-            i, j = q.popleft()
-            for x, y in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
-                new_x, new_y = i + x, j + y
-                if out_of_index(new_x, new_y) or grid[new_x][new_y] == 0:
-                    ans += 1
-                elif not visited[new_x][new_y]:
-                    visited[new_x][new_y] = True
-                    q.append((new_x, new_y))
-        return ans
