@@ -9,8 +9,4 @@ class Solution:
             nums = new_nums
         
         return nums[0]
-            
-
-        
-        return 3
         
