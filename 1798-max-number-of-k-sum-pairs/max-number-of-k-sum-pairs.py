@@ -11,7 +11,6 @@ class Solution:
             elif s > k:
                 rear -= 1
             else: # s == k
-                print(f"{nums[front]} {nums[rear]}")
                 cnt += 1
                 front += 1
                 rear -= 1
