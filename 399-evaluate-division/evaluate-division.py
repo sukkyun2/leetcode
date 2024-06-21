@@ -23,7 +23,7 @@ class Solution:
         adj = conv_adj()
         ans = []
         for start, end in queries:
-            if end not in adj.keys() or not adj[end]:
+            if end not in adj.keys() or start not in adj.keys():
                 ans.append(-1.0)
             else:
                 ans.append(dfs(end, start, 1, defaultdict(bool)))
