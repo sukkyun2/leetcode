@@ -1,35 +1,55 @@
-from collections import deque
+import heapq
 
 class Solution:
-    def minimumEffortPath(self, heights: List[List[int]]) -> int:
-        H = len(heights)
-        W = len(heights[0])
+    def minimumEffortPath(self, h: List[List[int]]) -> int:
+        m,n = len(h), len(h[0])
+        efforts = [[float('inf') for _ in range(n)] for _ in range(m)]
+        efforts[0][0] = 0
+        q = [(0,0,0)]
 
-        queue = deque([])
-        queue.append((0, 0))
-
-        cost = { (row, col): float('inf') for col in range(W) for row in range(H) }
-        cost[(0, 0)] = 0
-
-        directions = [[1,0], [0,1], [-1,0], [0,-1]]
+        def out_of_index(i,j):
+            return i<0 or j<0 or i>=m or j>=n
         
-        def inside(row, col):
-            return 0 <= row < H and 0 <= col < W
-        
-        while queue:
-            row, col = queue.popleft()
-            current_height = heights[row][col]
-            current_cost = cost[(row, col)]
+        while q:
+            i,j,e = heappop(q)
 
-            for d_row, d_col in directions:
-                new_row = row + d_row
-                new_col = col + d_col
+            if i == m-1 and j == n-1:
+                return e
 
-                if inside(new_row, new_col):
-                    neighbor_height = heights[new_row][new_col]
-                    new_cost = max(current_cost, abs(neighbor_height - current_height))
-                    if new_cost < cost[(new_row, new_col)]:
-                        cost[(new_row, new_col)] = new_cost
-                        queue.append((new_row, new_col))
-        
-        return cost[(H - 1, W - 1)]
+            for x,y in [(1,0),(-1,0),(0,-1),(0,1)]:
+                new_x, new_y = i+x, j+y
+                if out_of_index(new_x,new_y):
+                    continue
+                new_e = max(e, abs(h[i][j]-h[new_x][new_y]))
+                if new_e < efforts[new_x][new_y]:
+                    efforts[new_x][new_y] = new_e
+                    heappush(q,(new_x,new_y,new_e))
+
+        return -1
+
+
+
+
+
+
+
+
+        return 1        
+
+        # def out_of_index(i,j):
+        #     return i < 0 or i >= m or j < 0 or j >= n
+
+        # while q:
+        #     i, j = q.popleft()
+            
+        #     for x, y in [(1,0),(-1,0),(0,-1),(0,1)]:
+        #         new_x, new_y = i+x, j+y
+        #         if out_of_index(new_x, new_y):
+        #             continue
+                
+        #         effort = max(efforts[(i,j)], abs(h[i][j]-h[new_x][new_y]))
+        #         if effort < efforts[(new_x,new_y)]:
+        #             efforts[(new_x,new_y)] = effort
+        #             q.append((new_x,new_y))
+
+        # return efforts[(m-1,n-1)]
