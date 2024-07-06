@@ -13,8 +13,8 @@ class Solution:
         while q:
             i,j,e = heappop(q)
 
-            if i == m-1 and j == n-1:
-                return e
+            # if i == m-1 and j == n-1:
+            #     return e
 
             for x,y in [(1,0),(-1,0),(0,-1),(0,1)]:
                 new_x, new_y = i+x, j+y
@@ -25,7 +25,7 @@ class Solution:
                     efforts[new_x][new_y] = new_e
                     heappush(q,(new_x,new_y,new_e))
 
-        return -1
+        return efforts[-1][-1]
 
 
 
