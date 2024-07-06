@@ -11,10 +11,10 @@ class Solution:
             return i<0 or j<0 or i>=m or j>=n
         
         while q:
-            i,j,e = heappop(q)
+            e,i,j = heappop(q)
 
-            # if i == m-1 and j == n-1:
-            #     return e
+            if i == m-1 and j == n-1:
+                return e
 
             for x,y in [(1,0),(-1,0),(0,-1),(0,1)]:
                 new_x, new_y = i+x, j+y
@@ -23,33 +23,6 @@ class Solution:
                 new_e = max(e, abs(h[i][j]-h[new_x][new_y]))
                 if new_e < efforts[new_x][new_y]:
                     efforts[new_x][new_y] = new_e
-                    heappush(q,(new_x,new_y,new_e))
+                    heappush(q,(new_e,new_x,new_y))
 
-        return efforts[-1][-1]
-
-
-
-
-
-
-
-
-        return 1        
-
-        # def out_of_index(i,j):
-        #     return i < 0 or i >= m or j < 0 or j >= n
-
-        # while q:
-        #     i, j = q.popleft()
-            
-        #     for x, y in [(1,0),(-1,0),(0,-1),(0,1)]:
-        #         new_x, new_y = i+x, j+y
-        #         if out_of_index(new_x, new_y):
-        #             continue
-                
-        #         effort = max(efforts[(i,j)], abs(h[i][j]-h[new_x][new_y]))
-        #         if effort < efforts[(new_x,new_y)]:
-        #             efforts[(new_x,new_y)] = effort
-        #             q.append((new_x,new_y))
-
-        # return efforts[(m-1,n-1)]
+        return -1
