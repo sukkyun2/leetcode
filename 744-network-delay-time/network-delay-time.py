@@ -19,10 +19,7 @@ class Solution:
 
         while q:
             cur_w, u = heappop(q)
-
-            # if not adj[u] or any(i != float('inf') for i in cost):
-            #    ans = max(ans, cur_w) 
-
+            
             for v,w in adj[u]:
                 next_w = cur_w + w
                 
