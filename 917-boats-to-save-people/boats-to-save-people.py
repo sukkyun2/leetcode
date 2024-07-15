@@ -1,5 +1,3 @@
-from collections import deque
-
 class Solution:
     def numRescueBoats(self, p: List[int], limit: int) -> int:
         p.sort()
@@ -9,13 +7,11 @@ class Solution:
             tot = p[front] + p[rear]
             if tot > limit:
                 rear -= 1
-                ans += 1
             elif tot <= limit:
                 front += 1
                 rear -= 1
-                ans += 1   
-
-
+            
+            ans += 1   
 
         return ans + (front == rear)
         
