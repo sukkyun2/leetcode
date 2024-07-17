@@ -12,7 +12,8 @@ class Solution:
             else:
                 d[l] += 1
 
-        for p, l in sorted(d.items()):
+        for p in sorted(d.keys()):
+            l = d[p]
             if l == 0:
                 ans[0].append(p)
             elif l == 1:
