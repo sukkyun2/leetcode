@@ -5,9 +5,8 @@ class Solution:
 
         for n, roman in d.items():
             if num >= n:
-                mod = num // n
-                ans = ans + mod * roman
-                num = num - mod * n
-
+                q, r = divmod(num, n)
+                ans = ans + q * roman
+                num = r
         return ans 
             
