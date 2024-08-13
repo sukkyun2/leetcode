@@ -13,10 +13,8 @@ class Solution:
                     k = k+1
                 front = front + 1
 
-            if ans <= rear-front+1:
-                print(f"{rear} {front}")
-                ans = rear-front+1
-
+            gap = rear-front+1
+            ans = max(ans, gap)
 
             rear += 1
 
