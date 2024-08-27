@@ -5,12 +5,8 @@ class Solution:
         if m * n != r * c:
             return mat
 
-        # arr = [mat[i][j] for j in range(n) for i in range(m)]
-        arr = []
-        for i in range(m):
-            for j in range(n):
-                arr.append(mat[i][j])
-                
+        arr = [mat[i][j] for i in range(m) for j in range(n)]
+        
         return [arr[i:i+c] for i in range(0,m*n,c)]
             
         
