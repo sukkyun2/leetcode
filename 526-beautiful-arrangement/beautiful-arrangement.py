@@ -1,14 +1,14 @@
 class Solution:
     def countArrangement(self, n: int) -> int:
         path = []
-        ans = [0]
+        self.ans = 0
 
         def is_divisible(index, value):
             return index % value == 0 or value % index == 0 
 
-        def backtracking(path, ans):
+        def backtracking(path):
             if len(path) == n:
-                ans[0] += 1
+                self.ans += 1
                 return
             
             for i in range(1, n+1):
@@ -16,9 +16,9 @@ class Solution:
                     continue
 
                 path.append(i)
-                backtracking(path[:], ans)
+                backtracking(path[:])
                 path.pop()
 
-        backtracking(path, ans)
+        backtracking(path)
 
-        return ans[0]
+        return self.ans
