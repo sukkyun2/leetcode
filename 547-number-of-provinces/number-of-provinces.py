@@ -1,26 +1,27 @@
+from collections import defaultdict
+
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        d = defaultdict(list)
         n = len(isConnected)
-        parent = [i for i in range(n)]
-        cnt = 0 
+        visited = set()
+        cnt = 0
 
-        def find(x):
-            if parent[x] != x:
-                parent[x] = find(parent[x])
+        for i in range(n):
+            for j in range(n):
+                if i != j and isConnected[i][j]:
+                    d[i].append(j)
+        
+        def dfs(i, visited):
+            visited.add(i)
 
-            return parent[x]
-
-        def union(a,b):
-            root_a = find(a)
-            root_b = find(b)
-
-            parent[root_a] = root_b
-
-            return root_a != root_b
+            for node in d[i]:
+                if node not in visited:
+                    dfs(node, visited)
         
         for i in range(n):
-            for j in range(i+1,n):    
-                if isConnected[i][j] and union(i,j):
-                    cnt += 1
-        
-        return n - cnt
+            if i not in visited:
+                dfs(i, visited)
+                cnt += 1
+
+        return cnt
