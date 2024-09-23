@@ -1,34 +1,29 @@
-import heapq
 from collections import defaultdict
+from heapq import heappush, heappop
 
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        def get_adj():
-            adj = defaultdict(list)
-            for u,v,w in times:
-                adj[u].append((v,w))
-            
-            return adj
-        
-        ans = 0
-        adj = get_adj()
-        cost = {i: float('inf') for i in range(1,n+1)}
+        adj = defaultdict(list)
+        costs = {i:float('inf') for i in range(1,n+1)}
 
-        cost[k] = 0
+        for u,v,w in times:
+            adj[u].append((w,v)) # weight, other node
+
+        costs[k] = 0
         q = [(0,k)]
 
         while q:
-            cur_w, u = heappop(q)
-            
-            for v,w in adj[u]:
-                next_w = cur_w + w
-                
-                if next_w < cost[v]:
-                    cost[v] = next_w
-                    heappush(q,(cur_w+w,v))
-        
-        if float('inf') in cost.values():
+            cost, u = heappop(q)
+
+            for w, v in adj[u]:
+                new_cost = cost + w
+                if new_cost < costs[v]:
+                    costs[v] = new_cost
+                    heappush(q,(new_cost,v))
+
+        if float('inf') in costs.values():
             return -1
 
-        return max(cost.values())
-        
+        return max(costs.values())    
+            
+
