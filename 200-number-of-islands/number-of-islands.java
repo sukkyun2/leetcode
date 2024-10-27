@@ -1,43 +1,52 @@
 import java.util.*;
 
 class Solution {
-    static int M;
-    static int N;
+    private int m;
+    private int n;
+    private int[][] directions = new int[][]{
+        {-1,0},
+        {1,0},
+        {0,1},
+        {0,-1}
+    };
 
     public int numIslands(char[][] grid) {
-        System.out.println(Arrays.deepToString(grid));
-        int answer = 0;
-        M = grid.length;
-        N = grid[0].length;
+        m = grid.length;
+        n = grid[0].length;
+        int count = 0;
 
-        boolean[][] visited = new boolean[M][N];
-
-        for(int i=0;i<M;i++){
-            for(int j=0;j<N;j++){
-                if(!visited[i][j] && grid[i][j] == '1'){
-                    answer += 1;
-                    bfs(i,j,visited,grid);
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == '1'){
+                    bfs(i,j,grid);
+                    count+=1;
                 }
             }
         }
 
-        return answer;
+        return count;
+    }
+
+    private void bfs(int i, int j, char[][] grid){
+        Queue<int[]> q = new LinkedList<>(Arrays.asList(new int[]{i,j}));
+
+        while(!q.isEmpty()){
+            int[] e = q.poll();
+
+            for(int[] d: directions){
+                int x = e[0] + d[0];
+                int y = e[1] + d[1];
+                if(outOfIndex(x,y) || grid[x][y] == '0'){
+                    continue;
+                }
+
+                grid[x][y] = '0';
+                q.offer(new int[]{x,y});
+            }
+        }
     }
 
     private boolean outOfIndex(int i, int j){
-        return i<0 || j<0 || i>=M || j>= N;
-    }
-
-    private void bfs(int i, int j, boolean[][] visited, char[][] grid){
-        if(outOfIndex(i,j) || visited[i][j] || grid[i][j] == '0'){
-            return;
-        }
-
-        visited[i][j] = true;
-
-        bfs(i+1,j,visited,grid);
-        bfs(i-1,j,visited,grid);
-        bfs(i,j+1,visited,grid);
-        bfs(i,j-1,visited,grid);
+        return i<0 || j<0 || i>=m || j>=n;
     }
 }
