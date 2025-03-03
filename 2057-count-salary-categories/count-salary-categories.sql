@@ -1,0 +1,22 @@
+# Write your MySQL query statement below
+
+SELECT
+    A.CATEGORY,
+    IFNULL(B.ACCOUNTS_COUNT,0) AS ACCOUNTS_COUNT
+FROM (
+    SELECT 'Low Salary' AS CATEGORY
+    UNION
+    SELECT 'Average Salary' AS CATEGORY
+    UNION
+    SELECT 'High Salary' AS CATEGORY
+) A
+LEFT JOIN (SELECT 
+    CASE 
+        WHEN INCOME > 50000 THEN 'High Salary'
+        WHEN INCOME >= 20000 THEN 'Average Salary'
+        ELSE 'Low Salary'
+    END AS CATEGORY,
+    COUNT(*) AS ACCOUNTS_COUNT
+FROM ACCOUNTS
+GROUP BY CATEGORY) B
+ON A.CATEGORY = B.CATEGORY
